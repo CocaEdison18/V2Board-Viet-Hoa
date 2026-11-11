@@ -1,0 +1,49 @@
+{
+    "name": "MutilSpace",
+    "description": "Giao diện MutilSpace cho V2Board",
+    "version": "1.0.0",
+    "images": "https://images.unsplash.com/photo-1515405295579-ba7b45403062?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2160&q=80",
+    "configs": [{
+        "label": "Màu chủ đạo",
+        "placeholder": "Chọn màu chủ đạo",
+        "field_name": "theme_color",
+        "field_type": "select",
+        "select_options": {
+            "default": "Mặc định (xanh dương)",
+            "green": "Xanh lá",
+            "black": "Đen",
+            "darkblue": "Xanh đậm"
+        },
+        "default_value": "default"
+    }, {
+        "label": "Hình nền",
+        "placeholder": "Nhập URL hình nền",
+        "field_name": "background_url",
+        "field_type": "input"
+    }, {
+        "label": "Kiểu thanh bên",
+        "placeholder": "Chọn kiểu thanh bên",
+        "field_name": "theme_sidebar",
+        "field_type": "select",
+        "select_options": {
+            "light": "Sáng",
+            "dark": "Tối"
+        },
+        "default_value": "light"
+    }, {
+        "label": "Kiểu thanh trên",
+        "placeholder": "Chọn kiểu thanh trên",
+        "field_name": "theme_header",
+        "field_type": "select",
+        "select_options": {
+            "light": "Sáng",
+            "dark": "Tối"
+        },
+        "default_value": "dark"
+    }, {
+        "label": "HTML chân trang tùy chỉnh",
+        "placeholder": "Dùng để thêm mã chăm sóc khách hàng hoặc nội dung tùy chỉnh",
+        "field_name": "custom_html",
+        "field_type": "textarea"
+    }]
+}
