@@ -15,6 +15,12 @@ Yêu cầu chính theo `composer.json`: PHP 8.4, Composer, MySQL và Redis. Thư
 - Giao diện JavaScript gốc được phân phối ở dạng đã biên dịch như bản V2Board nền; kho này chưa có dự án nguồn để biên dịch lại toàn bộ giao diện.
 - Bản dịch tiếng Việt vẫn đang được hoàn thiện; phản hồi về chuỗi chưa dịch được hoan nghênh.
 
+## Giao diện khách hàng và gói dịch vụ
+
+Giao diện khách hàng dùng bộ màu và bố cục MutilSpace trong `public/theme/v2board/assets/custom.css` và `custom.js`. Đây là lớp giao diện chung cho đăng nhập, điều hướng, dashboard, trang gói, đơn hàng và tài khoản.
+
+Tên gói, giá, chu kỳ, dung lượng, mô tả và tình trạng bán lấy từ dữ liệu V2Board. Quản trị viên tạo và chỉnh sửa gói trong **Quản lý gói dịch vụ**; bộ giao diện không chứa gói mẫu hay giá cố định.
+
 Đây là bản mã nguồn thử nghiệm. Hãy kiểm tra trên một máy chủ riêng trước khi đưa vào phục vụ người dùng.
 # Hướng dẫn cài đặt MutilSpace từ mã nguồn
 

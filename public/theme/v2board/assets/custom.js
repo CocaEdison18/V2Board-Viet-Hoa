@@ -35,6 +35,17 @@
         shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/>'
     };
 
+    const CUSTOMER_PAGE_INTROS = {
+        plan: ['Khám phá gói dịch vụ', 'Chọn gói và chu kỳ phù hợp với nhu cầu kết nối của bạn.'],
+        node: ['Hành trình kết nối', 'Theo dõi các máy chủ và trạng thái hoạt động.'],
+        order: ['Đơn hàng của tôi', 'Theo dõi lịch sử mua hàng và trạng thái thanh toán.'],
+        invite: ['Lời mời của tôi', 'Quản lý mã mời và theo dõi hoa hồng.'],
+        profile: ['Tài khoản cá nhân', 'Quản lý ví, bảo mật và tùy chọn thông báo.'],
+        ticket: ['Trung tâm hỗ trợ', 'Gửi yêu cầu và theo dõi phản hồi từ đội ngũ hỗ trợ.'],
+        knowledge: ['Tài liệu sử dụng', 'Tìm hướng dẫn cài đặt và kết nối trên thiết bị của bạn.'],
+        traffic: ['Chi tiết dung lượng', 'Xem mức sử dụng dữ liệu theo thời gian.']
+    };
+
     function icon(name) {
         return '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
             (ICONS[name] || ICONS.arrow) + '</svg>';
@@ -42,6 +53,35 @@
 
     function routePath() {
         return (window.location.hash || '#/').replace(/^#/, '').split('?')[0] || '/';
+    }
+
+    function syncCustomerPage() {
+        const key = routePath().split('/')[1] || '';
+        document.body.dataset.msRoute = key;
+        const main = document.querySelector('#main-container');
+        const content = main && main.querySelector('.content.content-full');
+        if (!content || !document.querySelector('#sidebar')) return;
+
+        const intro = content.querySelector(':scope > .ms-page-intro');
+        const details = CUSTOMER_PAGE_INTROS[key];
+        if (!details || key === 'dashboard') {
+            if (intro) intro.remove();
+            content.classList.remove('ms-page-content');
+            return;
+        }
+
+        content.classList.add('ms-page-content');
+        if (intro && intro.dataset.msPage === key) return;
+        if (intro) intro.remove();
+        const banner = document.createElement('section');
+        banner.className = 'ms-page-intro';
+        banner.dataset.msPage = key;
+        banner.setAttribute('aria-labelledby', 'ms-page-intro-title');
+        banner.innerHTML = '<div class="ms-page-intro-copy"><span class="ms-page-intro-kicker">MUTILSPACE · KHÔNG GIAN CỦA BẠN</span>' +
+            '<h1 id="ms-page-intro-title">' + escapeHtml(details[0]) + '</h1>' +
+            '<p>' + escapeHtml(details[1]) + '</p></div>' +
+            '<span class="ms-page-intro-emblem" aria-hidden="true">' + icon('compass') + '</span>';
+        content.insertBefore(banner, content.firstChild);
     }
 
     function escapeHtml(value) {
@@ -672,6 +712,7 @@
         window.requestAnimationFrame(() => {
             applyBrand();
             applyVietnameseFallbacks();
+            syncCustomerPage();
             ensureDashboard();
             scheduled = false;
         });

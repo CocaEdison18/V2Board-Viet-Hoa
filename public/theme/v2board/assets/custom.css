@@ -1735,3 +1735,359 @@ select:focus {
         border-radius: 12px !important;
     }
 }
+
+/* Shared customer shell. Product names, prices and limits stay in V2Board data. */
+#page-container {
+    background:
+        radial-gradient(circle at 88% 12%, rgba(66, 184, 245, .09), transparent 31rem),
+        radial-gradient(circle at 38% 88%, rgba(246, 196, 83, .08), transparent 33rem),
+        var(--ms-bg) !important;
+}
+
+#sidebar {
+    border-right: 1px solid rgba(255, 255, 255, .08);
+}
+
+#sidebar .nav-main-heading {
+    color: #f6cf75 !important;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .13em;
+}
+
+#sidebar .nav-main-link-icon,
+#sidebar .content-list > a i {
+    color: #73c7f7 !important;
+}
+
+#sidebar .nav-main-link.active .nav-main-link-icon,
+#sidebar .content-list > a.active i {
+    color: #fff !important;
+}
+
+#page-header {
+    border-top: 3px solid var(--ms-ocean);
+}
+
+#main-container > .content.content-full {
+    max-width: 1480px;
+    padding-top: 26px;
+    padding-bottom: 42px;
+}
+
+.ms-page-content > .row,
+.ms-page-content > .block,
+.ms-page-content > h2,
+.ms-page-content > .v2board-plan-tabs {
+    position: relative;
+}
+
+.ms-page-intro {
+    position: relative;
+    display: flex;
+    min-height: 164px;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    margin-bottom: 26px;
+    padding: 28px 36px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 24px;
+    background: linear-gradient(115deg, #082d53 3%, #0b5c91 69%, #0985bc 100%);
+    box-shadow: 0 19px 42px rgba(8, 49, 84, .17);
+    color: #fff;
+}
+
+.ms-page-intro::before,
+.ms-page-intro::after {
+    position: absolute;
+    content: '';
+    pointer-events: none;
+}
+
+.ms-page-intro::before {
+    width: 300px;
+    height: 300px;
+    right: -45px;
+    top: -194px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe190 2%, #f6c453 32%, rgba(246, 196, 83, .04) 70%);
+    opacity: .94;
+}
+
+.ms-page-intro::after {
+    width: 90%;
+    height: 120px;
+    right: -15%;
+    bottom: -89px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .15);
+    box-shadow: 0 -15px 0 -12px rgba(255, 255, 255, .18), 0 -31px 0 -28px rgba(255, 255, 255, .13);
+    transform: rotate(-5deg);
+}
+
+.ms-page-intro-copy,
+.ms-page-intro-emblem {
+    position: relative;
+    z-index: 1;
+}
+
+.ms-page-intro-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffe29a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .15em;
+}
+
+.ms-page-intro-kicker::before {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ms-primary);
+    content: '';
+}
+
+.ms-page-intro h1 {
+    margin: 10px 0 5px;
+    color: #fff;
+    font-size: clamp(23px, 2.4vw, 34px);
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.ms-page-intro p {
+    max-width: 620px;
+    margin: 0;
+    color: rgba(255, 255, 255, .8);
+    font-size: 14px;
+}
+
+.ms-page-intro-emblem {
+    display: grid;
+    width: 86px;
+    height: 86px;
+    flex: 0 0 86px;
+    place-items: center;
+    margin-right: 5%;
+    border: 1px solid rgba(255, 255, 255, .28);
+    border-radius: 25px;
+    background: rgba(255, 255, 255, .11);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+    transform: rotate(-9deg);
+}
+
+.ms-page-intro-emblem svg {
+    width: 44px;
+    height: 44px;
+    stroke: #ffe29a;
+}
+
+.ms-page-content .block,
+.ms-page-content .ant-card {
+    overflow: hidden;
+    border: 1px solid var(--ms-border) !important;
+    border-radius: 19px !important;
+    background: #fff;
+    box-shadow: 0 12px 34px rgba(8, 50, 92, .07) !important;
+}
+
+.ms-page-content .block-header-default,
+.ms-page-content .ant-card-head {
+    background: #f8fbff !important;
+    border-bottom: 1px solid #e7edf5;
+}
+
+.ms-page-content .block-title,
+.ms-page-content .ant-card-head-title {
+    color: var(--ms-ink);
+    font-weight: 750;
+}
+
+/* Plan cards keep V2Board's administrator-defined content and prices. */
+body[data-ms-route="plan"] .v2board-plan-tabs {
+    display: inline-flex;
+    gap: 4px;
+    padding: 5px;
+    border: 1px solid var(--ms-border) !important;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(8, 50, 92, .06);
+}
+
+body[data-ms-route="plan"] .v2board-plan-tabs > span {
+    padding: 8px 16px;
+    border-radius: 999px;
+    color: var(--ms-ocean-deep);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+body[data-ms-route="plan"] .v2board-plan-tabs > span.active {
+    background: linear-gradient(135deg, var(--ms-primary), #f25a40) !important;
+    box-shadow: 0 6px 14px rgba(233, 52, 52, .22);
+    color: #fff !important;
+}
+
+body[data-ms-route="plan"] .content > .row > [class*="col-"] > a.block {
+    height: calc(100% - 2rem);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+body[data-ms-route="plan"] .content > .row > [class*="col-"] > a.block:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 42px rgba(8, 50, 92, .14) !important;
+}
+
+body[data-ms-route="plan"] .block-header.plan {
+    min-height: 74px;
+    border-top: 5px solid var(--ms-primary);
+    background: #fff;
+}
+
+body[data-ms-route="plan"] .block-header.plan .block-title {
+    font-size: 19px;
+}
+
+body[data-ms-route="plan"] .block-content.bg-gray-light {
+    background: linear-gradient(125deg, #e9f6ff, #fff5db) !important;
+}
+
+body[data-ms-route="plan"] .block-content.bg-gray-light .h1 {
+    color: var(--ms-ocean-deep);
+    font-weight: 800;
+}
+
+body[data-ms-route="plan"] .content > .row > [class*="col-"] > a.block .btn-alt-primary {
+    width: 100%;
+    padding: 10px 14px;
+    border: 0;
+    background: linear-gradient(135deg, var(--ms-primary), #f25a40) !important;
+    color: #fff !important;
+    font-weight: 750;
+}
+
+body[data-ms-route="plan"] #cashier .v2board-select {
+    margin-bottom: 8px;
+    padding: 12px 14px;
+    border: 1px solid var(--ms-border);
+    border-radius: 12px;
+    background: #fff;
+}
+
+body[data-ms-route="plan"] #cashier .v2board-select.active {
+    border-color: var(--ms-ocean) !important;
+    background: #edf7ff;
+}
+
+body[data-ms-route="plan"] #cashier .block.text-light {
+    background: linear-gradient(150deg, #082d53, #0b4d80) !important;
+}
+
+.ms-page-content .ant-table-thead > tr > th {
+    background: #edf6ff !important;
+    color: var(--ms-ocean-deep) !important;
+    font-weight: 750;
+}
+
+.ms-page-content .ant-table-tbody > tr:hover > td {
+    background: #f5fbff !important;
+}
+
+.ms-page-content .ant-empty {
+    padding: 22px 0;
+}
+
+.ms-page-content .form-control,
+.ms-page-content .ant-input,
+.ms-page-content .ant-select-selector {
+    min-height: 42px;
+    border-color: #cfdce9 !important;
+    background: #fff !important;
+}
+
+body[data-ms-route="profile"] .ms-page-content > .row:first-of-type .block {
+    background: linear-gradient(115deg, #082d53, #0b5c91) !important;
+}
+
+body[data-ms-route="profile"] .ms-page-content > .row:first-of-type .block .text-muted,
+body[data-ms-route="profile"] .ms-page-content > .row:first-of-type .block .text-black {
+    color: #fff !important;
+}
+
+body[data-ms-route="profile"] .ms-page-content > .row:first-of-type .block i {
+    color: var(--ms-straw) !important;
+}
+
+/* Original sea-and-sun backdrop for authentication pages. */
+body[data-ms-route="login"] #main-container,
+body[data-ms-route="register"] #main-container,
+body[data-ms-route="forget"] #main-container {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 80% 17%, rgba(255, 219, 122, .95) 0 6%, transparent 6.2%),
+        radial-gradient(circle at 18% 16%, rgba(82, 194, 245, .34), transparent 32%),
+        linear-gradient(155deg, #081b38, #0a4271 60%, #0b759e) !important;
+}
+
+.v2board-auth-box .block {
+    border: 1px solid rgba(255, 255, 255, .56) !important;
+    border-radius: 23px !important;
+    box-shadow: 0 28px 70px rgba(2, 19, 42, .32) !important;
+}
+
+.v2board-auth-box .block-content {
+    padding: 26px !important;
+}
+
+.v2board-auth-box .font-size-h1 {
+    color: var(--ms-ocean-deep);
+    font-weight: 800;
+}
+
+.v2board-auth-box .form-control {
+    min-height: 46px;
+    border: 1px solid #d8e5f2;
+    background: #f6faff !important;
+}
+
+.v2board-auth-box .bg-gray-lighter {
+    background: #f3f8fd !important;
+}
+
+@media (max-width: 767px) {
+    #main-container > .content.content-full {
+        padding-top: 16px;
+        padding-bottom: 28px;
+    }
+
+    .ms-page-intro {
+        min-height: 142px;
+        margin-bottom: 18px;
+        padding: 22px 20px;
+        border-radius: 18px;
+    }
+
+    .ms-page-intro p {
+        font-size: 13px;
+    }
+
+    .ms-page-intro-emblem {
+        display: none;
+    }
+
+    body[data-ms-route="plan"] .v2board-plan-tabs {
+        max-width: 100%;
+    }
+
+    body[data-ms-route="plan"] .v2board-plan-tabs > span {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    .v2board-auth-box {
+        padding: 18px 12px;
+    }
+}
