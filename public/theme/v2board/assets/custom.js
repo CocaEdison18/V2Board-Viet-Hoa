@@ -360,6 +360,20 @@
         }).join('') + '</div>';
     }
 
+    function dashboardNoticeBanner(notices) {
+        const latest = Array.isArray(notices) && notices.length ? notices[0] : null;
+        const title = latest ? (latest.title || 'Thông báo từ MutilSpace') : 'Chào mừng đến MutilSpace';
+        const description = latest
+            ? stripHtml(latest.content || 'Xem thông báo mới nhất từ hệ thống.').slice(0, 240)
+            : 'Thông báo mới từ hệ thống sẽ xuất hiện tại đây.';
+        const date = latest && latest.created_at ? '<time>' + escapeHtml(formatDate(latest.created_at)) + '</time>' : '';
+        return '<section class="ms-voyage-notice" aria-label="Thông báo mới nhất">' +
+            '<div class="ms-voyage-notice-copy"><span class="ms-voyage-notice-tag">THÔNG BÁO</span>' +
+            '<h2>' + escapeHtml(title) + '</h2><p>' + escapeHtml(description) + '</p>' + date + '</div>' +
+            '<div class="ms-voyage-notice-emblem" aria-hidden="true">' + icon('compass') + '</div>' +
+            '</section>';
+    }
+
     function actionCard(action, iconName, title, description) {
         return '<button type="button" class="ms-action-card" data-action="' + action + '">' +
             '<span class="ms-action-icon">' + icon(iconName) + '</span>' +
@@ -450,7 +464,6 @@
     function dashboardMarkup(data) {
         const subscribe = data.subscribe || {};
         const userInfo = data.userInfo || {};
-        const stats = Array.isArray(data.stats) ? data.stats : [];
         const used = Math.max(0, Number(subscribe.u || 0) + Number(subscribe.d || 0));
         const total = Math.max(0, Number(subscribe.transfer_enable || 0));
         const remaining = Math.max(0, total - used);
@@ -462,22 +475,21 @@
         const expiryDate = hasSubscription ? formatDate(subscribe.expired_at) : 'Chưa kích hoạt';
         const expirySummary = expiryDays === null ? 'Thời hạn không giới hạn' :
             (expiryDays < 0 ? 'Gói đã hết hạn' : (expiryDays === 0 ? 'Hết hạn trong hôm nay' : 'Còn ' + expiryDays + ' ngày sử dụng'));
-        const primaryAction = hasSubscription ? 'copy-subscription' : 'plan';
         const email = userInfo.email || subscribe.email || 'Thành viên MutilSpace';
         const avatar = safeImageUrl(userInfo.avatar_url);
         const joinedDays = memberDays(userInfo.created_at);
-        const pendingOrders = Number(stats[0]) || 0;
-        const pendingTickets = Number(stats[1]) || 0;
+        const joinedDate = userInfo.created_at ? formatDate(userInfo.created_at) : 'Chưa xác định';
 
-        return '<div class="ms-dashboard ms-aiko-dashboard" data-ms-dashboard="ready">' +
+        return '<div class="ms-dashboard ms-aiko-dashboard ms-voyage-dashboard" data-ms-dashboard="ready">' +
+            dashboardNoticeBanner(data.notices) +
             '<section class="ms-panel ms-aiko-profile">' +
+                '<div class="ms-voyage-account-title"><strong>THÔNG TIN TÀI KHOẢN</strong><small>MUTILSPACE</small></div>' +
                 '<div class="ms-aiko-profile-main">' +
                     '<button type="button" class="ms-aiko-avatar" data-action="avatar" aria-label="Thay đổi ảnh đại diện" title="Thay đổi ảnh đại diện"><img src="' + escapeHtml(avatar) + '" alt="Ảnh đại diện"><span class="ms-aiko-avatar-online"></span><span class="ms-aiko-avatar-edit">+</span></button>' +
                     '<input class="ms-avatar-input" type="file" accept="image/jpeg,image/png,image/webp" hidden>' +
                     '<div class="ms-aiko-identity">' +
-                        '<span class="ms-aiko-overline">MUTILSPACE MEMBER</span>' +
                         '<h1>' + escapeHtml(email) + '</h1>' +
-                        '<div class="ms-aiko-badges"><span class="ms-aiko-verified ' + (hasSubscription ? '' : 'is-muted') + '">' + icon('shield') + (hasSubscription ? 'Đã xác minh' : 'Chưa xác minh') + '</span><span>Thành viên ' + joinedDays + ' ngày</span></div>' +
+                        '<div class="ms-aiko-badges"><span>THAM GIA NGÀY: ' + escapeHtml(joinedDate) + '</span><span>Thành viên ' + joinedDays + ' ngày</span></div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="ms-aiko-profile-stats">' +
@@ -486,6 +498,23 @@
                     '<div><span>Trạng thái</span><strong class="ms-aiko-status-text">' + escapeHtml(status.label) + '</strong></div>' +
                 '</div>' +
                 '<button type="button" class="ms-aiko-profile-button" data-action="profile">Tài khoản ' + icon('arrow') + '</button>' +
+            '</section>' +
+
+            '<button type="button" class="ms-voyage-purchase" data-action="plan">' +
+                '<span class="ms-voyage-purchase-icon" aria-hidden="true">+</span>' +
+                '<strong>' + (hasSubscription ? 'GIA HẠN GÓI DỊCH VỤ' : 'MUA GÓI DỊCH VỤ') + '</strong>' +
+                '<small>' + (hasSubscription ? 'Tiếp tục hành trình kết nối của bạn' : 'Khám phá gói phù hợp với bạn') + '</small>' +
+            '</button>' +
+
+            '<section class="ms-panel ms-aiko-menu ms-voyage-shortcuts">' +
+                '<div class="ms-voyage-shortcuts-heading"><h2>Phím tắt</h2></div>' +
+                '<div class="ms-aiko-menu-grid">' +
+                    menuItem(hasSubscription ? 'copy-subscription' : 'plan', 'link', 'Đồng bộ máy chủ', hasSubscription ? 'Sao chép liên kết để thêm vào ứng dụng' : 'Cần mua gói trước khi đồng bộ máy chủ') +
+                    menuItem('knowledge', 'book', 'Xem hướng dẫn', 'Cài đặt và kết nối trên mọi thiết bị') +
+                    menuItem('node', 'compass', 'Trạng thái máy chủ', 'Xem các điểm kết nối đang hoạt động') +
+                    menuItem('plan', 'bag', hasSubscription ? 'Gia hạn gói dịch vụ' : 'Mua gói dịch vụ', 'Chọn gói phù hợp với nhu cầu của bạn') +
+                    menuItem('ticket', 'support', 'Trung tâm hỗ trợ', 'Tạo yêu cầu khi bạn cần trợ giúp') +
+                '</div>' +
             '</section>' +
 
             '<div class="ms-aiko-main-grid">' +
@@ -508,36 +537,8 @@
                             '<div><span>Đặt lại sau</span><strong>' + escapeHtml(resetLabel(subscribe.reset_day)) + '</strong></div>' +
                         '</div>' +
                     '</div>' +
-                    '<div class="ms-aiko-sync">' +
-                        '<div class="ms-aiko-sync-copy"><span class="ms-aiko-sync-icon">' + icon('compass') + '</span><div><strong>Đồng bộ máy chủ về ứng dụng</strong><small>Windows · macOS · Android · iOS</small></div></div>' +
-                        '<div class="ms-aiko-os"><span>WIN</span><span>MAC</span><span>AND</span><span>IOS</span></div>' +
-                        '<button type="button" class="ms-btn ms-btn-primary" data-action="' + primaryAction + '">' + icon('link') + (hasSubscription ? 'Sao chép đăng ký' : 'Chọn gói trước') + '</button>' +
-                    '</div>' +
-                    '<div class="ms-aiko-action-strip">' +
-                        '<button type="button" data-action="knowledge">' + icon('book') + '<span>Hướng dẫn</span></button>' +
-                        '<button type="button" data-action="order">' + icon('bag') + '<span>Đơn hàng <b>' + pendingOrders + '</b></span></button>' +
-                        '<button type="button" data-action="node">' + icon('compass') + '<span>Máy chủ</span></button>' +
-                        '<button type="button" data-action="ticket">' + icon('support') + '<span>Hỗ trợ <b>' + pendingTickets + '</b></span></button>' +
-                    '</div>' +
                 '</section>' +
-
-                '<aside class="ms-panel ms-aiko-notices">' +
-                    '<div class="ms-aiko-section-head"><div><span class="ms-aiko-overline">CẬP NHẬT</span><h2>Thông báo mới</h2></div></div>' +
-                    noticeMarkup(data.notices) +
-                '</aside>' +
             '</div>' +
-
-            '<section class="ms-panel ms-aiko-menu">' +
-                '<div class="ms-aiko-section-head"><div><span class="ms-aiko-overline">ĐIỀU HƯỚNG NHANH</span><h2>Danh sách menu</h2></div><small>Các chức năng thường dùng</small></div>' +
-                '<div class="ms-aiko-menu-grid">' +
-                    menuItem('knowledge', 'book', 'Hướng dẫn sử dụng', 'Cài đặt và kết nối trên mọi thiết bị') +
-                    menuItem('order', 'bag', 'Lịch sử mua hàng', 'Theo dõi trạng thái các đơn hàng') +
-                    menuItem('node', 'compass', 'Trạng thái máy chủ', 'Kiểm tra các điểm kết nối đang hoạt động') +
-                    menuItem('profile', 'shield', 'Bảo mật tài khoản', 'Đổi mật khẩu và thiết lập nhắc nhở') +
-                    menuItem('plan', 'bag', hasSubscription ? 'Gia hạn dịch vụ' : 'Mua gói dịch vụ', 'Chọn gói và chu kỳ phù hợp') +
-                    menuItem('ticket', 'support', 'Trung tâm hỗ trợ', 'Trao đổi trực tiếp với đội ngũ MutilSpace') +
-                '</div>' +
-            '</section>' +
         '</div>';
     }
 
@@ -706,6 +707,34 @@
         });
     }
 
+    function ensurePlanEmptyState() {
+        if (routePath() !== '/plan') return;
+        const content = document.querySelector('#main-container > .content.content-full');
+        if (!content || content.dataset.msPlanProbe || !content.querySelector('.spinner-grow')) return;
+        content.dataset.msPlanProbe = 'pending';
+        apiGet('/user/plan/fetch').then(plans => {
+            if (routePath() !== '/plan' || !content.isConnected) return;
+            content.dataset.msPlanProbe = 'complete';
+            if (!Array.isArray(plans) || plans.length) return;
+            const spinner = content.querySelector('.spinner-grow');
+            if (spinner) spinner.outerHTML = '<div class="ms-plan-empty" role="status"><span class="ms-plan-empty-icon" aria-hidden="true">' + icon('bag') + '</span><h3>Chưa có gói dịch vụ</h3><p>Các gói sẽ xuất hiện tại đây khi được mở bán.</p></div>';
+        }).catch(() => {
+            if (content.isConnected) content.dataset.msPlanProbe = 'error';
+        });
+    }
+
+    function clarifyPasswordConfirmation() {
+        if (routePath() !== '/profile') return;
+        const passwordGroups = Array.from(document.querySelectorAll('.ms-page-content .form-group'))
+            .filter(group => group.querySelector('input[type="password"]'));
+        if (passwordGroups.length < 3) return;
+        const confirmation = passwordGroups[2];
+        const label = confirmation.querySelector('label');
+        const input = confirmation.querySelector('input[type="password"]');
+        if (label && label.textContent.trim() === 'Mật khẩu mới') label.textContent = 'Nhập lại mật khẩu mới';
+        if (input && input.placeholder === 'Hãy nhập mật khẩu mới') input.placeholder = 'Hãy nhập lại mật khẩu mới';
+    }
+
     function refresh() {
         if (scheduled) return;
         scheduled = true;
@@ -713,7 +742,9 @@
             applyBrand();
             applyVietnameseFallbacks();
             syncCustomerPage();
+            clarifyPasswordConfirmation();
             ensureDashboard();
+            ensurePlanEmptyState();
             scheduled = false;
         });
     }
