@@ -14,6 +14,119 @@
     --ms-shadow: 0 18px 46px rgba(13, 59, 105, .1);
 }
 
+/* Customer support shortcut, shared by every customer route. */
+@keyframes zalo-pulse {
+    0% { transform: scale(.5); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes zalo-tilt {
+    0%, 100% { transform: rotate(-15deg); }
+    50% { transform: rotate(15deg); }
+}
+
+.zalo-widget {
+    position: fixed;
+    right: 20px;
+    bottom: 66px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    color: #4fb8ff;
+    font-family: Roboto, Arial, sans-serif;
+    text-decoration: none;
+}
+
+.zalo-widget__message {
+    position: relative;
+    margin-right: -12px;
+    padding: 7px 25px 7px 15px;
+    border-radius: 50px 0 0 50px;
+    background: #fff;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 6%), 0 2px 32px rgb(0 0 0 / 16%);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.zalo-widget__button {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: 50px;
+    height: 50px;
+    flex: none;
+    place-items: center;
+    border-radius: 50%;
+    background: #4fb8ff;
+    box-shadow: 0 1px 6px rgb(0 0 0 / 6%), 0 2px 32px rgb(0 0 0 / 16%);
+    color: #fff;
+}
+
+.zalo-widget__button::before,
+.zalo-widget__button::after {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    z-index: -1;
+    border: 1px solid #4fb8ff;
+    border-radius: 50%;
+    background: #4fb8ff;
+    animation: zalo-pulse 1.9s linear infinite;
+    pointer-events: none;
+}
+
+.zalo-widget__button::after { animation-delay: .4s; }
+
+.zalo-widget__icon {
+    position: absolute;
+    width: 29px;
+    height: 28px;
+    fill: #fff;
+    animation: zalo-tilt 1s linear infinite;
+    transition: opacity .3s ease;
+}
+
+.zalo-widget__text {
+    position: absolute;
+    width: 44px;
+    opacity: 0;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    transition: opacity .3s ease;
+}
+
+@media (hover: hover) {
+    .zalo-widget__button:hover .zalo-widget__icon { opacity: 0; }
+    .zalo-widget__button:hover .zalo-widget__text { opacity: 1; }
+}
+
+.zalo-widget:focus-visible {
+    outline: 3px solid #075985;
+    outline-offset: 4px;
+}
+
+.zalo-widget:focus-visible .zalo-widget__icon { opacity: 0; }
+.zalo-widget:focus-visible .zalo-widget__text { opacity: 1; }
+
+@media (max-width: 600px) {
+    .zalo-widget { right: 14px; }
+    .zalo-widget__message { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zalo-widget__button::before,
+    .zalo-widget__button::after,
+    .zalo-widget__icon { animation: none; }
+    .zalo-widget__icon,
+    .zalo-widget__text { transition: none; }
+}
+
 html,
 body,
 #root {
