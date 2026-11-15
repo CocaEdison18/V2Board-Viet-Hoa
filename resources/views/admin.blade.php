@@ -14,6 +14,13 @@
     <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,400i,600,700"> -->
     <script>window.routerBase = "/";</script>
     <script>
+        // The API stores money in hundredths. VND is displayed without decimal places.
+        window.mutilspaceFormatCurrency = (amount, currency) => {
+            const value = (Number(amount) || 0) / 100;
+            return String(currency).toUpperCase() === 'VND'
+                ? new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(value)
+                : value.toFixed(2);
+        };
         window.localStorage.setItem('umi_locale', 'vi-VN');
         window.settings = {
             title: '{{$title}}',
@@ -35,7 +42,7 @@
 <script src="/assets/admin/vi.js?v={{$version}}-ms10"></script>
 <script src="/assets/admin/vendors.async.js?v={{$version}}-ms10"></script>
 <script src="/assets/admin/components.async.js?v={{$version}}-ms10"></script>
-<script src="/assets/admin/umi.js?v={{$version}}-ms10"></script>
+<script src="/assets/admin/umi.js?v={{$version}}-ms11"></script>
 <script src="/assets/admin/custom.js?v={{$version}}-ms12"></script>
 </body>
 
