@@ -42,7 +42,7 @@
 <script src="/assets/admin/vi.js?v={{$version}}-ms10"></script>
 <script src="/assets/admin/vendors.async.js?v={{$version}}-ms10"></script>
 <script src="/assets/admin/components.async.js?v={{$version}}-ms10"></script>
-<script src="/assets/admin/umi.js?v={{$version}}-ms11"></script>
+<script src="/assets/admin/umi.js?v={{$version}}-ms12"></script>
 <script src="/assets/admin/custom.js?v={{$version}}-ms12"></script>
 </body>
 
