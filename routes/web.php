@@ -26,6 +26,7 @@ Route::get('/', function (Request $request) {
         'version' => config('app.version'),
         'description' => config('v2board.app_description', 'Kết nối nhanh, ổn định và an toàn'),
         'logo' => config('v2board.logo'),
+        'currency' => config('v2board.currency', 'CNY'),
         'currency_symbol' => config('v2board.currency_symbol', '₫')
     ];
 

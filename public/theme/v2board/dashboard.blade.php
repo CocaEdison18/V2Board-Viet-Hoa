@@ -37,6 +37,7 @@
             version: '{{$version}}',
             background_url: '{{$theme_config['background_url']}}',
             description: '{{$description}}',
+            currency: @json($currency),
             currency_symbol: @json($currency_symbol),
             i18n: [
                 'zh-CN',
@@ -49,6 +50,25 @@
             ],
             logo: '{{$logo}}'
         }
+        window.mutilspaceFormatCurrency = amount => {
+            const value = (Number(amount) || 0) / 100;
+            return String(window.settings.currency).toUpperCase() === 'VND'
+                ? new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(value)
+                : value.toFixed(2);
+        };
+        window.mutilspaceFormatMoney = (amount, symbol) => {
+            const unit = symbol || window.settings.currency_symbol || '';
+            const formatted = window.mutilspaceFormatCurrency(amount);
+            return String(window.settings.currency).toUpperCase() === 'VND'
+                ? formatted + ' ' + unit
+                : unit + ' ' + formatted;
+        };
+        window.mutilspaceFormatTotal = (amount, symbol, currency) => {
+            const code = currency || window.settings.currency;
+            return String(code).toUpperCase() === 'VND'
+                ? window.mutilspaceFormatCurrency(amount) + ' VND'
+                : window.mutilspaceFormatMoney(amount, symbol) + ' ' + code;
+        };
     </script>
     <script src="/theme/{{$theme}}/assets/i18n/zh-CN.js?v={{$version}}"></script>
     <script src="/theme/{{$theme}}/assets/i18n/zh-TW.js?v={{$version}}"></script>
@@ -73,9 +93,9 @@
 </a>
 <script src="/theme/{{$theme}}/assets/vendors.async.js?v={{$version}}"></script>
 <script src="/theme/{{$theme}}/assets/components.async.js?v={{$version}}"></script>
-<script src="/theme/{{$theme}}/assets/umi.js?v={{$version}}"></script>
+<script src="/theme/{{$theme}}/assets/umi.js?v={{$version}}-ms1"></script>
 @if (file_exists(public_path("/theme/{$theme}/assets/custom.js")))
-    <script src="/theme/{{$theme}}/assets/custom.js?v={{$version}}-ms17"></script>
+    <script src="/theme/{{$theme}}/assets/custom.js?v={{$version}}-ms18"></script>
 @endif
 </body>
 

@@ -127,8 +127,7 @@
 
     function formatMoney(value) {
         const symbol = window.settings && window.settings.currency_symbol ? window.settings.currency_symbol : '₫';
-        const amount = (Number(value) || 0) / 100;
-        return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 0 }).format(amount) + ' ' + symbol;
+        return window.mutilspaceFormatMoney(value, symbol);
     }
 
     function memberDays(timestamp) {
